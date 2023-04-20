@@ -1,0 +1,53 @@
+# Very nice code verifier
+
+Сервис для генерации кодов с TTL и их верификации
+
+<hr/>
+
+Была использована KeyDB в силу наличия expire для HSET
+
+Без лишних слов:
+
+Запуск - `make run`
+
+Test with coverage - `make test`
+
+Build to executable - `make build` -> `./build/runner`
+
+manual тесты:
+```bash
+$ curl --location 'localhost:8080/api/v1/send' \
+--header 'Content-Type: text/plain' \
+--data '{
+    "number": "+7 (999) 888-77-66"
+}'
+
+> {"requestId":"86ae27ae-df99-11ed-bf70-2af8bc618b50","code":4386}
+```
+
+Positive:
+```bash
+$ curl --location 'localhost:8080/api/v1/verify' \
+--header 'Content-Type: application/json' \
+--data '{"requestId":"86ae27ae-df99-11ed-bf70-2af8bc618b50","code":4386}'
+
+> {"verifiedAt":1682008671}
+```
+
+Negative:
+```bash
+$ curl --location 'localhost:8080/api/v1/verify' \
+--header 'Content-Type: application/json' \
+--data '{"requestId":"86ae27ae-df99-11ed-bf70-2af8bc618b50","code":4388}'
+
+> {"error":"invalid code"}
+```
+
+Attempts exceeded:
+```bash
+$ curl --location 'localhost:8080/api/v1/verify' \
+--header 'Content-Type: application/json' \
+--data '{"requestId":"86ae27ae-df99-11ed-bf70-2af8bc618b50","code":4388}'
+
+> {"error":"Verification attempts limit has been reached"}
+```
