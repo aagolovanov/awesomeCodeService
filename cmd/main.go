@@ -4,8 +4,11 @@ import (
 	"context"
 	"fmt"
 	"github.com/aagolovanov/awesomeCodeService/api"
+	"github.com/aagolovanov/awesomeCodeService/domain"
 	"github.com/aagolovanov/awesomeCodeService/util"
 	"github.com/redis/go-redis/v9"
+	"log"
+	"os"
 	"time"
 )
 
@@ -19,9 +22,16 @@ func main() {
 		TTL:    5,
 	}
 
-	server := api.NewServer(config)
+	dom := &domain.Domain{
+		Storage: nil,
+	}
 
-	server.Start()
+	server := api.NewServer(config, dom, log.New(os.Stdout, "SERVER", log.LstdFlags))
+
+	err := server.Start()
+	if err != nil {
+		fmt.Printf("Server error: %v\n", err)
+	}
 
 	rdb := redis.NewClient(
 		&redis.Options{

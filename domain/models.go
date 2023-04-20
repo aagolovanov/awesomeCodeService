@@ -1,5 +1,7 @@
 package domain
 
+import "github.com/aagolovanov/awesomeCodeService/repository"
+
 type RequestGenerate struct {
 	Number string `json:"number"`
 }
@@ -12,4 +14,8 @@ type RequestWithCode struct {
 
 type ResponseVerified struct {
 	VerifiedAt int `json:"verifiedAt"`
+}
+
+type Domain struct {
+	Storage repository.Storage
 }

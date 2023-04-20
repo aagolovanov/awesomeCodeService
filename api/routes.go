@@ -1,8 +1,6 @@
 package api
 
-import "net/http"
-
-func configureRoutes(router *http.ServeMux) {
-	router.HandleFunc("/api/v1/send", onlyPost(generateCode))
-	router.HandleFunc("/api/v1/verify", onlyPost(verifyCode))
+func (s *Server) configureRoutes() {
+	s.router.HandleFunc("/api/v1/send", onlyPost(s.generateCode))
+	s.router.HandleFunc("/api/v1/verify", onlyPost(s.verifyCode))
 }
