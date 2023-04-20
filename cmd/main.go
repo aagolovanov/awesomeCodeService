@@ -26,7 +26,7 @@ func main() {
 		Storage: nil,
 	}
 
-	server := api.NewServer(config, dom, log.New(os.Stdout, "SERVER", log.LstdFlags))
+	server := api.NewServer(&config, dom, log.New(os.Stdout, "SERVER", log.LstdFlags))
 
 	err := server.Start()
 	if err != nil {

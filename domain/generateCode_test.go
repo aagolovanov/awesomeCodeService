@@ -28,8 +28,12 @@ func TestNumberVerify(t *testing.T) {
 
 func TestGenerateCode(t *testing.T) {
 
-	// FIXME mock storage
-	d := Domain{RedisDB: nil}
+	// FIXME mock storage and other
+	d := Domain{
+		Storage: nil,
+		logg:    nil,
+		Config:  nil,
+	}
 
 	r, err := d.GenerateCode(&RequestGenerate{Number: "+7 (999) 888-77-66"})
 	if err != nil {

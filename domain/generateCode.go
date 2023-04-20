@@ -23,6 +23,12 @@ func (d *Domain) GenerateCode(r *RequestGenerate) (*RequestWithCode, error) {
 		RequestId: requestId.String(),
 		Code:      code,
 	}
+
+	err = d.saveCode(request)
+	if err != nil {
+		return nil, internal
+	}
+
 	return request, nil
 }
 

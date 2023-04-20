@@ -1,6 +1,10 @@
 package domain
 
-import "github.com/aagolovanov/awesomeCodeService/repository"
+import (
+	"github.com/aagolovanov/awesomeCodeService/repository"
+	"github.com/aagolovanov/awesomeCodeService/util"
+	"log"
+)
 
 type RequestGenerate struct {
 	Number string `json:"number"`
@@ -18,4 +22,6 @@ type ResponseVerified struct {
 
 type Domain struct {
 	Storage repository.Storage
+	logg    *log.Logger
+	Config  *util.Config
 }

@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"github.com/aagolovanov/awesomeCodeService/util"
 	"github.com/redis/go-redis/v9"
 	"time"
 )
@@ -11,6 +12,10 @@ type KeyDB struct {
 }
 
 var _ Storage = (*KeyDB)(nil) // for ide impl
+
+func NewKeyDB(config util.Config) (*KeyDB, error) {
+	return nil, nil
+}
 
 // SetData adds data to db
 func (k *KeyDB) SetData(ctx context.Context, key string, fields map[string]string) error {
