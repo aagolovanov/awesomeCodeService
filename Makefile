@@ -1,5 +1,5 @@
 run:
-	go run ./cmd
+	go run ./cmd -TTL 300
 
 
 build: clean

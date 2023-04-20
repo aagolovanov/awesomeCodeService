@@ -45,6 +45,8 @@ func (d *Domain) VerifyCode(r *RequestWithCode) (*ResponseVerified, error) {
 		VerifiedAt: verifiedAt,
 	}
 
+	_ = d.Storage.Delete(ctx, r.RequestId)
+
 	return resp, nil
 }
 

@@ -44,7 +44,7 @@ func (s *Server) verifyCode(w http.ResponseWriter, r *http.Request) {
 			body, _ := json.Marshal(apiError{
 				Error: err.Error(),
 			})
-			_, _ = w.Write(body)
+			_, err = w.Write(body)
 			//_, err := fmt.Fprint(w, body)
 			if err != nil {
 				s.logg.Printf("Error while writing response: %v\n", err)
@@ -60,6 +60,4 @@ func (s *Server) verifyCode(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
-	w.WriteHeader(http.StatusOK)
 }

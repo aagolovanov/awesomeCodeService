@@ -15,8 +15,8 @@ func main() {
 	config := util.LoadConfig()
 
 	// loggers
-	serverLogger := log.New(os.Stdout, "SERVER", log.LstdFlags)
-	domainLogger := log.New(os.Stdout, "DOMAIN", log.LstdFlags)
+	serverLogger := log.New(os.Stdout, "SERVER ", log.LstdFlags)
+	domainLogger := log.New(os.Stdout, "DOMAIN ", log.LstdFlags)
 	// todo repositoryLogger
 
 	storage, err := repository.NewKeyDB(&config)
