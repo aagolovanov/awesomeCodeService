@@ -21,6 +21,8 @@ Build to executable - `make build` -> `./build/runner`
 ## Docker
 ```bash
 $ make docker
+```
+```bash
 $ make compose
 ```
 Image:
@@ -33,8 +35,9 @@ $ curl --location 'localhost:8080/api/v1/send' \
 --data '{
     "number": "+7 (999) 888-77-66"
 }'
-
-> {"requestId":"86ae27ae-df99-11ed-bf70-2af8bc618b50","code":4386}
+```
+```json
+{"requestId":"86ae27ae-df99-11ed-bf70-2af8bc618b50","code":4386}
 ```
 
 Positive:
@@ -42,8 +45,9 @@ Positive:
 $ curl --location 'localhost:8080/api/v1/verify' \
 --header 'Content-Type: application/json' \
 --data '{"requestId":"86ae27ae-df99-11ed-bf70-2af8bc618b50","code":4386}'
-
-> {"verifiedAt":1682008671}
+```
+```json
+{"verifiedAt":1682008671}
 ```
 
 Negative:
@@ -51,8 +55,9 @@ Negative:
 $ curl --location 'localhost:8080/api/v1/verify' \
 --header 'Content-Type: application/json' \
 --data '{"requestId":"86ae27ae-df99-11ed-bf70-2af8bc618b50","code":4388}'
-
-> {"error":"invalid code"}
+```
+```json
+{"error":"invalid code"}
 ```
 
 Attempts exceeded:
@@ -60,9 +65,7 @@ Attempts exceeded:
 $ curl --location 'localhost:8080/api/v1/verify' \
 --header 'Content-Type: application/json' \
 --data '{"requestId":"86ae27ae-df99-11ed-bf70-2af8bc618b50","code":4388}'
-
-> {"error":"Verification attempts limit has been reached"}
 ```
-
-# TODO
-- max possible test coverage
+```json
+{"error":"Verification attempts limit has been reached"}
+```
