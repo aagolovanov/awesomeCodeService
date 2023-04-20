@@ -31,6 +31,9 @@ func LoadConfig() Config {
 	if envDBAddr := os.Getenv("DB_ADDR"); envDBAddr != "" {
 		*dbaddr = envDBAddr
 	}
+	if envDBPass := os.Getenv("DB_PASS"); envDBPass != "" {
+		*dbpass = envDBPass
+	}
 	if envDBPort := os.Getenv("DB_PORT"); envDBPort != "" {
 		if p, err := strconv.Atoi(envDBPort); err == nil {
 			*dbport = p

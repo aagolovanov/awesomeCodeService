@@ -1,6 +1,8 @@
 package domain
 
 import (
+	"context"
+	"strconv"
 	"testing"
 )
 
@@ -28,25 +30,49 @@ func TestNumberVerify(t *testing.T) {
 
 func TestGenerateCode(t *testing.T) {
 
-	// FIXME mock storage and other
-	d := Domain{
-		Storage: nil,
-		Logg:    nil,
-		Config:  nil,
+	type test struct {
+		Name      string
+		Number    string
+		wantError bool
 	}
 
-	r, err := d.GenerateCode(&RequestGenerate{Number: "+7 (999) 888-77-66"})
-	if err != nil {
-		t.Error(err)
+	tests := []test{
+		{
+			"Pass",
+			"+79998887766",
+			false,
+		},
+		{
+			"Fail",
+			"+7123451",
+			true,
+		},
 	}
 
-	matchUuid := verifyUuid(r.RequestId)
+	for _, tt := range tests {
+		t.Run(tt.Name, func(t *testing.T) {
+			result, err := Domainn.GenerateCode(&RequestGenerate{
+				Number: tt.Number,
+			})
 
-	if !(1000 <= r.Code && r.Code <= 9999) {
-		t.Errorf("Expected code between 1000;9999, actual %v", r.Code)
+			if (err != nil) != tt.wantError {
+				t.Errorf("Got error %v\n", err)
+				return
+			} else if err != nil {
+				return
+			}
+
+			data, err := Domainn.Storage.GetAllData(context.Background(), result.RequestId)
+			code, _ := strconv.Atoi(data["code"])
+			if err != nil {
+				t.Errorf("Got error %v\n", err)
+				return
+			}
+			if code != result.Code {
+				t.Errorf("Generated: %v In DB: %v", result.Code, code)
+				return
+			}
+		})
 	}
 
-	if !matchUuid {
-		t.Errorf("Bad uuid: %v", r.RequestId)
-	}
 }
