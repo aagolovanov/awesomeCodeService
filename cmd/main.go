@@ -21,6 +21,8 @@ func main() {
 
 	server := api.NewServer(config)
 
+	server.Start()
+
 	rdb := redis.NewClient(
 		&redis.Options{
 			Addr:     "localhost:6379",
