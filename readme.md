@@ -8,16 +8,26 @@
 
 Без лишних слов:
 
+Установить зависимости `go mod download`
+
 Запуск - `make run`
 
 Test with coverage - `make test`
 
 Build to executable - `make build` -> `./build/runner`
 
+## Docker
+```bash
+$ make docker
+$ make compose
+```
+Image:
+https://hub.docker.com/r/supermantelecomworker/awesomecodeservice
+
 manual тесты:
 ```bash
 $ curl --location 'localhost:8080/api/v1/send' \
---header 'Content-Type: text/plain' \
+--header 'Content-Type: application/json' \
 --data '{
     "number": "+7 (999) 888-77-66"
 }'
@@ -51,3 +61,6 @@ $ curl --location 'localhost:8080/api/v1/verify' \
 
 > {"error":"Verification attempts limit has been reached"}
 ```
+
+# TODO
+- max possible test coverage

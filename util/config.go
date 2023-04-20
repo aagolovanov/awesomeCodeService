@@ -2,6 +2,7 @@ package util
 
 import (
 	"flag"
+	"os"
 	"strconv"
 )
 
@@ -20,6 +21,26 @@ func LoadConfig() Config {
 	ttl := flag.Int("TTL", 30, "TimeToLive for codes")
 
 	flag.Parse()
+
+	// костыль для оверрайда флагов енвами, переделать на viper или подобные
+	if envPort := os.Getenv("PORT"); envPort != "" {
+		if p, err := strconv.Atoi(envPort); err == nil {
+			*port = p
+		}
+	}
+	if envDBAddr := os.Getenv("DB_ADDR"); envDBAddr != "" {
+		*dbaddr = envDBAddr
+	}
+	if envDBPort := os.Getenv("DB_PORT"); envDBPort != "" {
+		if p, err := strconv.Atoi(envDBPort); err == nil {
+			*dbport = p
+		}
+	}
+	if envTTL := os.Getenv("TTL"); envTTL != "" {
+		if t, err := strconv.Atoi(envTTL); err == nil {
+			*ttl = t
+		}
+	}
 
 	return Config{
 		Port:   *port,
