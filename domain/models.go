@@ -17,11 +17,11 @@ type RequestWithCode struct {
 }
 
 type ResponseVerified struct {
-	VerifiedAt int `json:"verifiedAt"`
+	VerifiedAt int64 `json:"verifiedAt"`
 }
 
 type Domain struct {
 	Storage repository.Storage
-	logg    *log.Logger
+	Logg    *log.Logger
 	Config  *util.Config
 }

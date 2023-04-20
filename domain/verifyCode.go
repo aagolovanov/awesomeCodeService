@@ -3,6 +3,7 @@ package domain
 import (
 	"context"
 	"regexp"
+	"time"
 )
 
 func (d *Domain) VerifyCode(r *RequestWithCode) (*ResponseVerified, error) {
@@ -20,7 +21,31 @@ func (d *Domain) VerifyCode(r *RequestWithCode) (*ResponseVerified, error) {
 		return nil, requestNotExistError
 	}
 
-	return nil, nil
+	attempts, err := d.getAttempts(r)
+	if err != nil {
+		return nil, internal
+	}
+
+	if attempts > 3 {
+		return nil, attemptsExceededError
+	}
+
+	code, err := d.getCode(r)
+	if err != nil {
+		return nil, internal
+	}
+
+	if code != r.Code {
+		_ = d.Storage.Increment(ctx, r.RequestId, "attempts")
+		return nil, attemptsExceededError
+	}
+
+	verifiedAt := time.Now().Unix()
+	resp := &ResponseVerified{
+		VerifiedAt: verifiedAt,
+	}
+
+	return resp, nil
 }
 
 // wtf this func for what ?

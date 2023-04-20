@@ -2,7 +2,7 @@ package domain
 
 import (
 	"context"
-	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -10,7 +10,7 @@ func (d *Domain) saveCode(c *RequestWithCode) error {
 	ctx := context.Background()
 
 	data := map[string]string{
-		"code":     fmt.Sprintf("%04d", c.Code),
+		"code":     strconv.Itoa(c.Code),
 		"attempts": "0",
 	}
 
@@ -27,6 +27,26 @@ func (d *Domain) saveCode(c *RequestWithCode) error {
 	return err
 }
 
-func (d *Domain) getAttempts() int {
+func (d *Domain) getAttempts(c *RequestWithCode) (ret int, err error) {
+	ctx := context.Background()
+	data, err := d.Storage.GetAllData(ctx, c.RequestId)
+	if err != nil {
+		d.logg.Printf("Error while getting attempts: %v", err)
+		return 0, err
+	}
 
+	ret, _ = strconv.Atoi(data["attempts"])
+	return
+}
+
+func (d *Domain) getCode(c *RequestWithCode) (code int, err error) {
+	ctx := context.Background()
+	data, err := d.Storage.GetAllData(ctx, c.RequestId)
+	if err != nil {
+		d.logg.Printf("Error while getting attempts: %v", err)
+		return 0, err
+	}
+
+	code, _ = strconv.Atoi(data["code"])
+	return
 }
