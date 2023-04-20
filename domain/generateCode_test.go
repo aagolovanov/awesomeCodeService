@@ -31,7 +31,7 @@ func TestGenerateCode(t *testing.T) {
 	// FIXME mock storage and other
 	d := Domain{
 		Storage: nil,
-		logg:    nil,
+		Logg:    nil,
 		Config:  nil,
 	}
 

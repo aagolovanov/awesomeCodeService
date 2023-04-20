@@ -37,7 +37,7 @@ func (d *Domain) VerifyCode(r *RequestWithCode) (*ResponseVerified, error) {
 
 	if code != r.Code {
 		_ = d.Storage.Increment(ctx, r.RequestId, "attempts")
-		return nil, attemptsExceededError
+		return nil, invalidCodeError
 	}
 
 	verifiedAt := time.Now().Unix()

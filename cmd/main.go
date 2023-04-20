@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/aagolovanov/awesomeCodeService/api"
 	"github.com/aagolovanov/awesomeCodeService/domain"
+	"github.com/aagolovanov/awesomeCodeService/repository"
 	"github.com/aagolovanov/awesomeCodeService/util"
 	"log"
 	"os"
@@ -11,24 +12,28 @@ import (
 
 func main() {
 
-	// temporary config
-	config := util.Config{
-		Port:   8080,
-		DBAddr: "localhost",
-		DBPass: "6379",
-		TTL:    30,
+	config := util.LoadConfig()
+
+	// loggers
+	serverLogger := log.New(os.Stdout, "SERVER", log.LstdFlags)
+	domainLogger := log.New(os.Stdout, "DOMAIN", log.LstdFlags)
+	// todo repositoryLogger
+
+	storage, err := repository.NewKeyDB(&config)
+	if err != nil {
+		log.Fatalf("Error while trying to connect to KeyDB: %v", err)
 	}
 
 	// TODO NewDomain
 	dom := &domain.Domain{
-		Storage: nil,
-		Logg:    nil,
-		Config:  nil,
+		Storage: storage,
+		Logg:    domainLogger,
+		Config:  &config,
 	}
 
-	server := api.NewServer(&config, dom, log.New(os.Stdout, "SERVER", log.LstdFlags))
+	server := api.NewServer(&config, dom, serverLogger)
 
-	err := server.Start()
+	err = server.Start()
 	if err != nil {
 		fmt.Printf("Server error: %v\n", err)
 	}

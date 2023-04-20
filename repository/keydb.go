@@ -13,8 +13,19 @@ type KeyDB struct {
 
 var _ Storage = (*KeyDB)(nil) // for ide impl
 
-func NewKeyDB(config util.Config) (*KeyDB, error) {
-	return nil, nil
+func NewKeyDB(config *util.Config) (*KeyDB, error) {
+
+	options := &redis.Options{
+		Addr:     config.DBAddr,
+		Password: config.DBPass,
+		DB:       0,
+	}
+
+	rdb := redis.NewClient(options)
+
+	db := &KeyDB{rdb: rdb}
+
+	return db, rdb.Ping(context.Background()).Err()
 }
 
 // SetData adds data to db
