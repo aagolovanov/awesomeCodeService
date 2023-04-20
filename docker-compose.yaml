@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  keydb:
+    image: eqalpha/keydb:latest
+#    command: keydb-server --persistence yes --appendonly yes
+#    volumes:
+#      - keydb-data:/data
+    networks:
+      - main0
+  gomain:
+    image:
+      supermantelecomworker/awesomecodeservice:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_ADDR=keydb
+      - DB_PORT=6379
+      - PORT=8080
+      - TTL=300
+    depends_on:
+      - keydb
+    networks:
+      - main0
+    command: [ "/app/main" ]
+networks:
+  main0:
+#volumes:
+#  keydb-data:

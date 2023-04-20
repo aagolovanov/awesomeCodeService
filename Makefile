@@ -12,3 +12,10 @@ test:
 
 clean:
 	rm -rf build
+
+
+docker:
+	docker build -t supermantelecomworker/awesomecodeservice:latest .
+
+compose:
+	docker-compose -f docker-compose.yaml -p awesomecodeservice up -d
