@@ -3,11 +3,23 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/aagolovanov/awesomeCodeService/api"
+	"github.com/aagolovanov/awesomeCodeService/util"
 	"github.com/redis/go-redis/v9"
 	"time"
 )
 
 func main() {
+
+	// temporary config
+	config := util.Config{
+		Port:   8080,
+		DBAddr: "localhost",
+		DBPass: "6379",
+		TTL:    5,
+	}
+
+	server := api.NewServer(config)
 
 	rdb := redis.NewClient(
 		&redis.Options{
