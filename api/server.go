@@ -11,11 +11,11 @@ import (
 type Server struct {
 	router *http.ServeMux
 	config *util.Config
-	domain *domain.Domain
+	domain domain.IDomain
 	logg   *log.Logger
 }
 
-func NewServer(config *util.Config, dom *domain.Domain, logger *log.Logger) *Server {
+func NewServer(config *util.Config, dom domain.IDomain, logger *log.Logger) *Server {
 	router := http.NewServeMux()
 	server := &Server{
 		router: router,
