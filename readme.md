@@ -1,6 +1,6 @@
 # Very nice code verifier
 
-![GoLand total statements coverage 76.3%](https://img.shields.io/badge/coverage-76.3%25-green)
+![GoLand total statements coverage 83.6%](https://img.shields.io/badge/coverage-83.6%25-success)
 
 Сервис для генерации кодов с TTL и их верификации
 
