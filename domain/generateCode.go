@@ -9,12 +9,12 @@ import (
 func (d *Domain) GenerateCode(r *RequestGenerate) (*RequestWithCode, error) {
 
 	if !verifyNumber(r.Number) {
-		return nil, badNumberError
+		return nil, BadNumberError
 	}
 
 	requestId, err := uuid.NewUUID()
 	if err != nil {
-		return nil, internal
+		return nil, Internal
 	}
 
 	code := generateRandomCode()
@@ -26,7 +26,7 @@ func (d *Domain) GenerateCode(r *RequestGenerate) (*RequestWithCode, error) {
 
 	err = d.saveCode(request)
 	if err != nil {
-		return nil, internal
+		return nil, Internal
 	}
 
 	return request, nil

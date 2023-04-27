@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/aagolovanov/awesomeCodeService/domain"
 	"net/http"
 )
@@ -22,10 +23,10 @@ func (s *Server) verifyCode(w http.ResponseWriter, r *http.Request) {
 
 	verifMessage, err := s.domain.VerifyCode(&request)
 	if err != nil {
-		if err.Error() == "internal" {
+		if errors.Is(err, domain.Internal) {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
-		} else if err.Error() == "limit" {
+		} else if errors.Is(err, domain.AttemptsExceededError) {
 			w.WriteHeader(http.StatusTooManyRequests) // maybe another statuscode?
 
 			body, _ := json.Marshal(apiError{

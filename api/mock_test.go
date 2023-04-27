@@ -23,7 +23,7 @@ func GetMockDomain() *MockDomain {
 
 func (m MockDomain) GenerateCode(req *domain.RequestGenerate) (*domain.RequestWithCode, error) {
 	if req.Number == "internal" {
-		return nil, errors.New("internal")
+		return nil, domain.Internal
 	}
 	if req.Number == "custom" {
 		return nil, errors.New("customError")
@@ -33,7 +33,7 @@ func (m MockDomain) GenerateCode(req *domain.RequestGenerate) (*domain.RequestWi
 
 func (m MockDomain) VerifyCode(req *domain.RequestWithCode) (*domain.ResponseVerified, error) {
 	if req.RequestId == "internal" {
-		return nil, errors.New("internal")
+		return nil, domain.Internal
 	}
 	if req.RequestId == "custom" {
 		return nil, errors.New("customError")

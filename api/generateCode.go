@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/aagolovanov/awesomeCodeService/domain"
 	"net/http"
 )
@@ -23,7 +24,7 @@ func (s *Server) generateCode(w http.ResponseWriter, r *http.Request) {
 
 	code, err := s.domain.GenerateCode(&request)
 	if err != nil {
-		if err.Error() == "internal" {
+		if errors.Is(err, domain.Internal) {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		} else {

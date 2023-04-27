@@ -13,31 +13,31 @@ func (d *Domain) VerifyCode(r *RequestWithCode) (*ResponseVerified, error) {
 		3. Check code and ++attempts if not eq
 	*/
 	if !verifyUuid(r.RequestId) {
-		return nil, badUUIDError
+		return nil, BadUUIDError
 	}
 	ctx := context.Background()
 
 	if !d.Storage.CheckExist(ctx, r.RequestId) {
-		return nil, requestNotExistError
+		return nil, RequestNotExistError
 	}
 
 	attempts, err := d.getAttempts(r)
 	if err != nil {
-		return nil, internal
+		return nil, Internal
 	}
 
 	if attempts > 3 {
-		return nil, attemptsExceededError
+		return nil, AttemptsExceededError
 	}
 
 	code, err := d.getCode(r)
 	if err != nil {
-		return nil, internal
+		return nil, Internal
 	}
 
 	if code != r.Code {
 		_ = d.Storage.Increment(ctx, r.RequestId, "attempts")
-		return nil, invalidCodeError
+		return nil, InvalidCodeError
 	}
 
 	verifiedAt := time.Now().Unix()

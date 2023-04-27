@@ -3,10 +3,10 @@ package domain
 import "errors"
 
 var (
-	badNumberError        = errors.New("bad phone number")
-	internal              = errors.New("internal") // specific
-	badUUIDError          = errors.New("bad requestId sent")
-	requestNotExistError  = errors.New("request does not exist")
-	attemptsExceededError = errors.New("limit") // specific
-	invalidCodeError      = errors.New("invalid code")
+	BadNumberError        = errors.New("bad phone number")
+	Internal              = errors.New("internal") // specific
+	BadUUIDError          = errors.New("bad requestId sent")
+	RequestNotExistError  = errors.New("request does not exist")
+	AttemptsExceededError = errors.New("limit") // specific
+	InvalidCodeError      = errors.New("invalid code")
 )
